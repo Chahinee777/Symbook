@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if 'ROLE_ADMIN' in app.user.roles %}
+
+        <h1>Lister les lignes</h1>
+         
+        <a class="btn btn-primary" href="{{ url('admin_livres_create') }}" role="button">Ajouter un nouveau livre </a><br/>
+         <br>
+        <form action="{{ url('livres_search') }}" method="get">
+            <input type="text" name="search" placeholder="Rechercher par titre ou éditeur">
+            <button type="submit">Rechercher</button>
+        </form>
+        <table class="table">
+            <tr>
+                <th>titre</th>
+                <th>ISBN</th>
+                <th>Editeur</th>
+                <th>Date Editeur</th>
+                <th>Prix</th>
+                <th>categorie</th>
+                <th>Action</th>
+            </tr>
+            {% for livre in livres %}
+                <tr>
+                    <td>{{ livre.titre|capitalize }}</td>
+                    <td>{{ livre.ISBN }}</td>
+                    <td>{{ livre.editeur }}</td>
+                    <td>{{ livre.editedAt|date }}</td>
+                    <td>{{ livre.Prix }}</td>
+                   
+
+                    <td><a href="{{ url('admin_livres_show', {'id': livre.id}) }}">
+                            <button type="button" class="btn btn-success">Voir Plus...</button>
+                        </a></td>
+
+                    <td><a href="{{ url('admin_livres_delete', {'id': livre.id}) }}">
+                            <button type="button" class="btn btn-danger">Supprimer</button>
+                        </a></td>
+                    <td><a href="{{ url('admin_livres_update', {'id': livre.id}) }}">
+                            <button type="button" class="btn btn-info">Editer</button>
+                        </a></td>
+                </tr>
+            {% endfor %}
+        </table>
+
+    {% else %}
+
+        <h1>Liste des livres</h1>
+        <br>
+        <form action="{{ url('livres_search') }}" method="get">
+            <input type="text" name="search" placeholder="Rechercher par titre ou éditeur">
+            <button type="submit">Rechercher</button>
+        </form>
+<br>
+        <div class="row">
+            {% for livre in livres %}
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <img src="{{ livre.image }}" class="card-img-top" alt="{{ livre.titre }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ livre.titre|capitalize }}</h5>
+                     
+                  
+                      
+                        <p class="card-text">Prix: {{ livre.Prix }}</p>
+                        <a href="{{ url('admin_livres_show', {'id': livre.id}) }}" class="btn btn-success">Voir détails</a>
+                          <a href="{{ path('cart_add', {id: livre.id}) }}" class="btn btn-success">Ajouter au Panier</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="navigation">
+    {{ knp_pagination_render(livres) }}
+</div>
+
+    {% endif %}
+{% endblock %}

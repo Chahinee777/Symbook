@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+liste des titres
+{% endblock %}
+{% block body %}
+<h1>Detail du livre {{livre.titre|capitalize}}</h1>
+<table class="table">
+
+
+    
+    <img src="{{livre.image}}" alt="photo du livre"> 
+    <H4>Titre : {{livre.titre|capitalize}}</H4>
+    
+      <h4>Editeur : {{livre.editeur}} <br><br>
+          Date : {{livre.editedAt|date}}</h4>
+      
+        <h4>Prix : {{livre.Prix}}(DT)</h4>
+         <h6> {{livre.resume}} </h6>
+
+
+
+
+{% endblock %}

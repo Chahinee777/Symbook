@@ -1,0 +1,41 @@
+{# templates/admin_livres/create.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Livre{% endblock %}
+
+{% block body %}
+    <h1>Create Livre</h1>
+
+    <form method="post">
+        <div>
+            <label for="titre">Titre :</label>
+            <input type="text" id="titre" name="titre">
+        </div>
+        <div>
+            <label for="editeur">Editeur :</label>
+            <input type="text" id="editeur" name="editeur">
+        </div>
+        <div>
+            <label for="prix">Prix :</label>
+            <input type="number" id="prix" name="prix">
+        </div>
+        <div>
+            <label for="isbn">ISBN :</label>
+            <input type="text" id="isbn" name="isbn">
+        </div>
+        <div>
+            <label for="slug">Slug :</label>
+            <input type="text" id="slug" name="slug">
+        </div>
+        <div>
+            <label for="categorie">Categorie :</label>
+            <input type="number" id="categorie" name="categorie">
+        </div>
+        <div>
+            <label for="resume">Resume :</label>
+            <textarea id="resume" name="resume"></textarea>
+        </div>
+        <button type="submit">Create</button>
+    </form>
+{% endblock %}
