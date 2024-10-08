@@ -3,17 +3,28 @@ version: '3'
 services:
 ###> doctrine/doctrine-bundle ###
   database:
+    image: mysql:8.0
     ports:
-      - "5432"
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: SymBook
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
 ###< doctrine/doctrine-bundle ###
 
 ###> symfony/mailer ###
   mailer:
     image: axllent/mailpit
     ports:
-      - "1025"
-      - "8025"
+      - "1025:1025"
+      - "8025:8025"
     environment:
       MP_SMTP_AUTH_ACCEPT_ANY: 1
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
 ###< symfony/mailer ###
+###> symfony/mercure-bundle ###
+  mercure:
+    ports:
+      - "80"
+###< symfony/mercure-bundle ###

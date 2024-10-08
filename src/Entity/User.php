@@ -1,8 +1,9 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -23,11 +24,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
+    #[ORM\Column(nullable: true)]
+    private ?string $nom = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $prenom = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $adresse = null;
+
+    #[ORM\Column(name: "code_postal", nullable: true)]
+    private ?string $codePostal = null;
+
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'id_user')]
+    private Collection $date_commande;
+
+    public function __construct()
+    {
+        $this->date_commande = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -42,6 +63,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(?string $nom): static
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(?string $prenom): static
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?string $adresse): static
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getCodePostal(): ?string
+    {
+        return $this->codePostal;
+    }
+
+    public function setCodePostal(?string $codePostal): static
+    {
+        $this->codePostal = $codePostal;
 
         return $this;
     }
@@ -98,4 +167,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getDateCommande(): Collection
+    {
+        return $this->date_commande;
+    }
+
+    public function addDateCommande(Commande $dateCommande): static
+    {
+        if (!$this->date_commande->contains($dateCommande)) {
+            $this->date_commande->add($dateCommande);
+            $dateCommande->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDateCommande(Commande $dateCommande): static
+    {
+        if ($this->date_commande->removeElement($dateCommande)) {
+            // set the owning side to null (unless already changed)
+            if ($dateCommande->getIdUser() === $this) {
+                $dateCommande->setIdUser(null);
+            }
+        }
+
+        return $this;
+    }
 }
+

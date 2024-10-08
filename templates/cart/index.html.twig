@@ -19,9 +19,9 @@
                         {% for element in data %}
                             <tr>
                                 <td>{{ element.livre.titre }}</td>
-                                <td>{{ element.livre.prix / 100 }} DT</td>
+                                <td>{{ element.livre.prix  }} DT</td>
                                 <td>{{ element.quantity }}</td>
-                                <td>{{ element.quantity * element.livre.prix / 100 }} DT</td>
+                                <td>{{ element.quantity * element.livre.prix  }} DT</td>
                                 <td>
                                     <a href="{{ path('cart_add', {id: element.livre.id}) }}" class="btn btn-success">+</a>
                                     <a href="{{ path('cart_remove', {id: element.livre.id}) }}" class="btn btn-warning">-</a>
@@ -37,13 +37,15 @@
                     <tfoot>
                         <tr>
                             <td colspan="3">Total</td>
-                            <td>{{ total / 100 }} DT</td>
+                            <td>{{ total }} DT</td>
+
                             <td>
                                 <a href="{{ path('cart_empty') }}" class="btn btn-danger">Vider</a>
                             </td>
                         </tr>
                     </tfoot>
                 </table>
+                <a href="{{url('app_commande_add')}}" class="btn btn_primary"> Valider panier</a>
             </div>
         </section>
     </main>

@@ -1,0 +1,111 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+    <h1>Welcome to SymBook Admin Dashboard</h1>
+
+    <section>
+        <label for="period">Select Period:</label>
+        <select id="period" onchange="updateCharts()">
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+        </select>
+    </section>
+
+    <section>
+        <h2>Indicateurs Clés</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Livre le Plus Vendu</h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="bestSellingBookChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Nombre de Commandes</h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="totalOrdersChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', (event) => {
+            updateCharts();
+        });
+
+        function updateCharts() {
+            let period = document.getElementById('period').value;
+
+            fetch(`/admin/dashboard/best-selling-book?period=${period}`)
+                .then(response => response.json())
+                .then(data => {
+                    updateBestSellingBookChart(data);
+                });
+
+            fetch(`/admin/dashboard/total-orders?period=${period}`)
+                .then(response => response.json())
+                .then(data => {
+                    updateTotalOrdersChart(data);
+                });
+        }
+
+        function updateBestSellingBookChart(data) {
+            const ctx = document.getElementById('bestSellingBookChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [data.livre],
+                    datasets: [{
+                        label: 'Total Quantity Sold',
+                        data: [data.totalQuantity],
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateTotalOrdersChart(data) {
+            const ctx = document.getElementById('totalOrdersChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Total Orders'],
+                    datasets: [{
+                        label: 'Total Orders',
+                        data: [data.totalOrders],
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+{% endblock %}

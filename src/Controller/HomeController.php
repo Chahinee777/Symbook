@@ -15,4 +15,18 @@ class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+    #[Route('/home', name: 'index')]
+    public function commande(): Response
+    {
+        return $this->render('commande/index.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+    #[Route('/home', name: 'index2')]
+    public function commande2(): Response
+    {
+        return $this->render('commande/index2.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
 }

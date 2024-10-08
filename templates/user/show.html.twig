@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block body %}
+    <h1>Liste des utilisateurs</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                
+              
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Adresse</th>
+                <th>Code Postal</th>
+         
+            </tr>
+        </thead>
+        <tbody>
+          
+                <tr>
+                   
+                   
+                    <td>{{ user.nom }}</td>
+                    <td>{{ user.prenom }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.adresse }}</td>
+                    <td>{{ user.codePostal }}</td>
+                    
+                </tr>
+     
+        </tbody>
+    </table>
+{% endblock %}

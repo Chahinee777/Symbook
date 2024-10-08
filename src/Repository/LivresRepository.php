@@ -67,8 +67,8 @@ public function rechercher(?string $searchTerm): array
               ->setParameter('searchTerm', '%'.$searchTerm.'%');
     }
 
-    return $query->setMaxResults(10)
-                 ->getQuery()
+    //return $query->setMaxResults(10)
+    return $query->getQuery()
                  ->getResult();
 }
 
